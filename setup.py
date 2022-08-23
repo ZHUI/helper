@@ -39,7 +39,7 @@ if sys.platform == "darwin":
 
 extensions = [
     Pybind11Extension(
-        "data_helpers.helpers",
+        "tool_helpers.helpers",
         sources=[os.path.join("helpers.cpp")],
         # include_dirs=[],
         language="c++",
@@ -49,11 +49,11 @@ extensions = [
 ]
 
 setuptools.setup(
-    name="data_helpers",
+    name="tool_helpers",
     version=0.1,
     author="PaddleNLP Team",
     author_email="paddlenlp@baidu.com",
-    description=LONG_DESC,
+    description="Data tool helpers for PaddleNLP pre-training.",
     long_description=LONG_DESC,
     long_description_content_type="text/markdown",
     url=
