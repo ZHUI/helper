@@ -50,7 +50,7 @@ extensions = [
 
 setuptools.setup(
     name="tool_helpers",
-    version=0.1,
+    version="0.1.1",
     author="PaddleNLP Team",
     author_email="paddlenlp@baidu.com",
     description="Data tool helpers for PaddleNLP pre-training.",
