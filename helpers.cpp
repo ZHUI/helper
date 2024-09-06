@@ -32,7 +32,8 @@ using namespace std;
 
 const int32_t LONG_SENTENCE_LEN = 512;
 
-void build_blending_indices(py::array_t<int16_t>& dataset_index,
+template <typename DatasetIndexType>
+void build_blending_indices(py::array_t<DatasetIndexType>& dataset_index,
                             py::array_t<int64_t>& dataset_sample_index,
                             const py::array_t<double>& weights,
                             const int32_t num_datasets,
@@ -46,7 +47,7 @@ void build_blending_indices(py::array_t<int16_t>& dataset_index,
   }
 
   // Get the pointer access without the checks.
-  auto dataset_index_ptr = dataset_index.mutable_unchecked<1>();
+  auto dataset_index_ptr = dataset_index.mutable_unchecked();
   auto dataset_sample_index_ptr = dataset_sample_index.mutable_unchecked<1>();
   auto weights_ptr = weights.unchecked<1>();
 
@@ -73,7 +74,7 @@ void build_blending_indices(py::array_t<int16_t>& dataset_index,
     }
 
     // Populate the indices.
-    dataset_index_ptr[sample_idx] = static_cast<int16_t>(max_error_index);
+    dataset_index_ptr[sample_idx] = static_cast<DatasetIndexType>(max_error_index);
     dataset_sample_index_ptr[sample_idx] = current_samples[max_error_index];
 
     // Update the total samples.
@@ -733,10 +734,21 @@ py::array build_blocks_mapping(const py::array_t<int64_t>& docs_,
   }
 }
 
+
 PYBIND11_MODULE(helpers, m) {
   m.def("build_mapping", &build_mapping);
   m.def("build_blocks_mapping", &build_blocks_mapping);
   m.def("build_sample_idx", &build_sample_idx);
-  m.def("build_blending_indices", &build_blending_indices);
+  m.def("build_blending_indices", 
+        [](py::array_t<uint8_t>& dataset_index, py::array_t<int64_t>& dataset_sample_index, 
+            const py::array_t<double>& weights, const int32_t num_datasets, const int64_t size, 
+            const bool verbose) {
+            build_blending_indices(dataset_index, dataset_sample_index, weights, num_datasets, size, verbose);
+        });
+  m.def("build_blending_indices", 
+        [](py::array_t<int16_t>& dataset_index, py::array_t<int64_t>& dataset_sample_index, 
+            const py::array_t<double>& weights, const int32_t num_datasets, const int64_t size, 
+            const bool verbose) {
+            build_blending_indices(dataset_index, dataset_sample_index, weights, num_datasets, size, verbose);
+        });
 }
-
