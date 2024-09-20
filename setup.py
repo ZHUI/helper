@@ -39,7 +39,7 @@ if sys.platform == "darwin":
 
 extensions = [
     Pybind11Extension(
-        "tool_helpers.helpers",
+        "fast_dataindex.helpers",
         sources=[os.path.join("helpers.cpp")],
         # include_dirs=[],
         language="c++",
@@ -49,7 +49,7 @@ extensions = [
 ]
 
 setuptools.setup(
-    name="tool_helpers",
+    name="fast_dataindex",
     version="0.1.2",
     author="PaddleNLP Team",
     author_email="paddlenlp@baidu.com",

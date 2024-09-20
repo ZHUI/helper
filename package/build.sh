@@ -23,6 +23,6 @@ done
 
 # Install packages and test
 for PYBIN in /opt/python/*/bin/; do
-    "${PYBIN}/pip" install tool_helpers --no-index -f /io/wheelhouse
-    (cd "$HOME"; "${PYBIN}/nosetests" tool_helpers)
+    "${PYBIN}/pip" install fast_dataindex --no-index -f /io/wheelhouse
+    (cd "$HOME"; "${PYBIN}/nosetests" fast_dataindex)
 done
